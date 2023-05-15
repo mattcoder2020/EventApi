@@ -31,6 +31,34 @@ namespace EventAPI.Controllers
             return Ok(events);
         }
 
+        [HttpGet]
+        public IActionResult GetAllEvents(int page = 1, int pageSize = 10)
+        {
+            var events = _cache.Get<IEnumerable<Event>>("events");
+            if (events == null)
+            {
+                events = _eventRepository.GetAllEvents();
+                var cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                _cache.Set("events", events, cacheOptions);
+            }
+
+            var totalCount = events.Count();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var results = events.Skip((page - 1) * pageSize).Take(pageSize);
+
+            var response = new
+            {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Page = page,
+                PageSize = pageSize,
+                Results = results
+            };
+
+            return Ok(response);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetEventById(int id)
         {
