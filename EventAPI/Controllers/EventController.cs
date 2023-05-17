@@ -1,4 +1,5 @@
 ﻿using EventAPI.DomainModel;
+using EventAPI.Infrastructure.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -9,35 +10,22 @@ namespace EventAPI.Controllers
     [Route("api/events")]
     public class EventController : ControllerBase
     {
-        private readonly EventRepository _eventRepository;
+        private readonly IGenericDbRepository<Event> _eventRepository;
         private readonly IMemoryCache _cache;
 
-        public EventController(EventRepository eventRepository, IMemoryCache cache)
+        public EventController(IGenericDbRepository<Event> eventRepository, IMemoryCache cache)
         {
             _eventRepository = eventRepository;
             _cache = cache;
         }
 
         [HttpGet]
-        public IActionResult GetAllEvents()
+        public async Task<IActionResult> GetEventsWithPaginationAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var events = _cache.Get<IEnumerable<Event>>("events");
             if (events == null)
             {
-                events = _eventRepository.GetAllEvents();
-                var cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                _cache.Set("events", events, cacheOptions);
-            }
-            return Ok(events);
-        }
-
-        [HttpGet]
-        public IActionResult GetAllEvents(int page = 1, int pageSize = 10)
-        {
-            var events = _cache.Get<IEnumerable<Event>>("events");
-            if (events == null)
-            {
-                events = _eventRepository.GetAllEvents();
+                events = await _eventRepository.GetAll();
                 var cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
                 _cache.Set("events", events, cacheOptions);
             }
@@ -60,45 +48,67 @@ namespace EventAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetEventById(int id)
+        public async Task<IActionResult> GetEventById(int id)
         {
-            var event = _eventRepository.GetEventById(id);
-        if (event == null)
-            return NotFound();
-        return Ok(event);
+            var result = _eventRepository.GetByPrimaryKey(id);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult CreateEvent(Event event)
-    {
-            _eventRepository.AddEvent(event);
-        _cache.Remove("events");
-        return CreatedAtAction(nameof(GetEventById), new { id = event.Id }, event);
+        public async Task<IActionResult> CreateEvent(Event newevent)
+        {
+            await _eventRepository.AddModel(newevent);
+            _cache.Remove("events");
+            return CreatedAtAction(nameof(GetEventById), new { id = newevent.Id }, newevent);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateEvent(int id, Event event)
-    {
-            var existingEvent = _eventRepository.GetEventById(id);
+        public async Task<IActionResult> UpdateEvent(int id, Event updateevent)
+        {
+            var existingEvent = await _eventRepository.GetByPrimaryKey(id);
             if (existingEvent == null)
                 return NotFound();
-            existingEvent.Name = event.Name;
-        existingEvent.Date = event.Date;
-        // Update other properties as needed
-        _eventRepository.UpdateEvent(existingEvent);
-        _cache.Remove("events");
-        return NoContent();
-    }
+            existingEvent.Title = updateevent.Title;
+            existingEvent.Description = updateevent.Description;
+            // Update other properties as needed
+            existingEvent.EndDateTime = updateevent.EndDateTime;
+            existingEvent.StartDateTime = updateevent.StartDateTime;
+            existingEvent.TimeZone = updateevent.TimeZone;
+            existingEvent.Location = updateevent.Location;
+            await _eventRepository.UpdateModel(existingEvent);
 
-    [HttpDelete("{id}")]
-    public IActionResult DeleteEvent(int id)
-    {
-        var existingEvent = _eventRepository.GetEventById(id);
-        if (existingEvent == null)
-            return NotFound();
-        _eventRepository.DeleteEvent(id);
-        _cache.Remove("events");
-        return NoContent();
-    }
+            _cache.Remove("events");
+            return NoContent();
+        }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            var existingEvent = await _eventRepository.GetByPrimaryKey(id);
+            if (existingEvent == null)
+                return NotFound();
+            await _eventRepository.DeleteModel(existingEvent);
+            _cache.Remove("events");
+            return NoContent();
+        }
+
+        //add a method to add a participants to an event
+        [HttpPost("{id}/participants")]
+        public async Task<IActionResult> AddParticipantToEvent(int id, Participant participant)
+        {
+            var existingEvent = await _eventRepository.GetByPrimaryKey(id);
+            if (existingEvent == null)
+                return NotFound();
+            existingEvent.Participants.Add(participant);
+            await _eventRepository.UpdateModel(existingEvent);
+            _cache.Remove("events");
+            return NoContent();
+        }
+       
+
+    }
 }
+
+

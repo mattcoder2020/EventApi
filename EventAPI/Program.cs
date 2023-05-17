@@ -1,4 +1,5 @@
 using EventAPI.Infrastructure.DB;
+using EventAPI.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
