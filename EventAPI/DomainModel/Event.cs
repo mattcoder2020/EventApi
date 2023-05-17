@@ -9,11 +9,11 @@
             public DateTime EndDateTime { get; set; }
             public TimeZone TimeZone { get; set; }
             public string Location { get; set; }
-            public User ContactPerson { get; set; }
-            public List<User> Participants { get; set; } = new List<User>();
+            public string ContactPerson { get; set; }
+            public List<Participant> Participants { get; set; } = new List<Participant>();
 
             //method to add a participant to the event
-            public void AddParticipant(User user)
+            public void AddParticipant(Participant user)
             {
                 Participants.Add(user);
             }

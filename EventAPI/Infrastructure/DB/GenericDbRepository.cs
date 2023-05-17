@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace EventAPI.Infrastructure.DB
 {
 
-    public class GenericDbRepository<TEntity, TDbContext>
-        where TDbContext : DbContext
-        where TEntity : ModelBase
+    public class GenericDbRepository<TEntity> : IGenericDbRepository<TEntity> where TEntity : ModelBase
     {
         DbContext _dbcontext;
-        public GenericDbRepository(TDbContext dbcontext)
+        public GenericDbRepository(EventDbContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
