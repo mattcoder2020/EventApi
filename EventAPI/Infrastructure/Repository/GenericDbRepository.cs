@@ -1,6 +1,5 @@
 ﻿using EventAPI.DomainModel;
-using EventAPI.Infrastructure.DB;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using EventAPI.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventAPI.Infrastructure.Repository
@@ -13,31 +12,31 @@ namespace EventAPI.Infrastructure.Repository
         {
             _dbcontext = dbcontext;
         }
-        public async void AddModel(TEntity entity)
+        public async Task AddModelAsync(TEntity entity)
         {
             _dbcontext.Set<TEntity>().Add(entity);
             await _dbcontext.SaveChangesAsync();
         }
 
-        public async void DeleteModel(TEntity entity)
+        public async Task DeleteModelAsync(TEntity entity)
         {
             _dbcontext.Set<TEntity>().Remove(entity);
             await _dbcontext.SaveChangesAsync();
         }
 
-        public async void UpdateModel(TEntity entity)
+        public async Task UpdateModelAsync(TEntity entity)
         {
             _dbcontext.Set<TEntity>().Update(entity);
             await _dbcontext.SaveChangesAsync();
         }
 
-        public async Task<TEntity> GetByPrimaryKey(int id)
+        public async Task<TEntity> GetByPrimaryKeyAsync(int id)
         {
             return await _dbcontext.Set<TEntity>().FindAsync(id);
         }
      
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _dbcontext.Set<TEntity>().AsQueryable().ToArrayAsync<TEntity>();
         }

@@ -1,7 +1,7 @@
 ﻿using EventAPI.DomainModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventAPI.Infrastructure.DB
+namespace EventAPI.Infrastructure.DataAccess
 {
     public class EventDbContext : DbContext
     {
@@ -15,8 +15,7 @@ namespace EventAPI.Infrastructure.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure One-to-many relationship between Event and Participant
-             modelBuilder.Entity<Participant>()
+            modelBuilder.Entity<Participant>()
                 .HasOne(p => p.Event)
                 .WithMany(e => e.Participants)
                 .HasForeignKey(p => p.EventId);
