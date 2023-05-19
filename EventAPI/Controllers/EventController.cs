@@ -1,4 +1,5 @@
 ﻿using EventAPI.DomainModel;
+using EventAPI.Exceptions;
 using EventAPI.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -68,7 +69,7 @@ namespace EventAPI.Controllers
 
        //what is correct url for this?
 
-        [HttpPost()]
+        [HttpPost("addparticipant")]
         public async Task<IActionResult> AddParticipantToEvent([FromBody] AddParticipantParams @params)
         {
             try
@@ -81,7 +82,21 @@ namespace EventAPI.Controllers
             }
             return Ok();
         }
-       
+
+        [HttpPost("addinvitation")]
+        public async Task<IActionResult> AddInvitationToEvent([FromBody] AddParticipantParams @params)
+        {
+            try
+            {
+                await _eventService.AddInvitionToEventAsync(@params);
+            }
+            catch (NotFoundException<Event>)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
+
 
     }
 

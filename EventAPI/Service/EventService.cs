@@ -1,8 +1,10 @@
 ﻿using EventAPI.Controllers;
 using EventAPI.DomainModel;
+using EventAPI.Exceptions;
 using EventAPI.Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace EventAPI.Service
 {
@@ -83,20 +85,49 @@ namespace EventAPI.Service
             _cache.Remove("events");
         }
 
-        //add a method to add a participants to an event
-
         public async Task AddParticipantToEventAsync(AddParticipantParams @params)
         {
             var existingEvent = await _eventRepository.GetByPrimaryKeyAsync(@params.eventid);
             if (existingEvent == null)
                 throw new NotFoundException<Event>("Event with id " + @params.eventid + " is not found");
+
+            var user = GetUser(@params.userid);
+            if (user == null)
+                throw new NotFoundException<User>("User with id " + @params.userid + " is not found");
+
             var participant = new Participant { UserId = @params.userid, Event = existingEvent, EventId = @params.eventid };
             existingEvent.Participants.Add(participant);
             await _eventRepository.UpdateModelAsync(existingEvent);
             _cache.Remove("events");
+         }
 
+        public async Task AddInvitationToEventAsync(AddParticipantParams @params)
+        {
+            var existingEvent = await _eventRepository.GetByPrimaryKeyAsync(@params.eventid);
+            if (existingEvent == null)
+                throw new NotFoundException<Event>("Event with id " + @params.eventid + " is not found");
+
+            var user = GetUser(@params.userid);
+            if (user == null)
+                throw new NotFoundException<User>("User with id " + @params.userid + " is not found");
+
+            var invite = new Invitation { UserId = @params.userid, Event = existingEvent, EventId = @params.eventid, Accepted = false };
+            existingEvent.Invitations.Add(invite);
+            await _eventRepository.UpdateModelAsync(existingEvent);
+            _cache.Remove("events");
         }
 
+        private async Task<User?> GetUser(int userid)
+        {
+            var httpclient = new HttpClient();
+            var response = await httpclient.GetAsync("https://jsonplaceholder.typicode.com/users/" + userid);
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return null;
+            var result = await response.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<User>(result);
+            return user;
+        }
 
+        
     }
 }

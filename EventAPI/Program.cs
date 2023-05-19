@@ -12,7 +12,7 @@ string connectionstring = config.GetConnectionString("DefaultConnection");
 
 
 builder.Services.AddDbContext<EventDbContext>(options => options.UseSqlite(connectionstring));
-builder.Services.AddSingleton(typeof(IGenericDbRepository<>), typeof(GenericDbRepository<>));
+builder.Services.AddScoped(typeof(IGenericDbRepository<>), typeof(GenericDbRepository<>));
 builder.Services.AddTransient(typeof(IMemoryCache), typeof(CustomMemoryCache));
 builder.Services.AddTransient(typeof(IEventService), typeof(EventService));
 

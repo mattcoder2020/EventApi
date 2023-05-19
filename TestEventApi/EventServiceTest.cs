@@ -51,8 +51,6 @@ namespace EventAPI.Tests
             _memoryCacheMock.Verify(c => c.Remove("events"), Times.Once);
         }
 
-        // Write similar tests for UpdateEventAsync and DeleteEventAsync methods
-
         [Fact]
         public async Task AddParticipantToEventAsync_Should_Add_Participant_And_Clear_Cache()
         {

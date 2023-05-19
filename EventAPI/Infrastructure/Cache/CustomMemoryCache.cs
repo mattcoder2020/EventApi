@@ -30,7 +30,9 @@ namespace EventAPI.Infrastructure.Cache
 
         public bool TryGetValue(object key, out object value)
         {
-            return _memoryCache.TryGetValue(key, out value);
+            //return _memoryCache.TryGetValue(key, out value);
+            value =  _memoryCache.Get(key);
+            return value != null;
         }
 
         public void Set(object key, object value, TimeSpan absoluteExpirationRelativeToNow)
