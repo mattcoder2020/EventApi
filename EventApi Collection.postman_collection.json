@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "05cb2372-41f5-4d38-a018-5f3931bbc186",
+		"name": "EventApi Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step1 - Get All Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				},
+				"description": "Get all events in json format"
+			},
+			"response": []
+		},
+		{
+			"name": "Step2 - Add a new event",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				},
+				"description": "Add a new event without participant or invitation"
+			},
+			"response": []
+		},
+		{
+			"name": "Step3 - Add Invitation to event",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				},
+				"description": "Add Invitation to event"
+			},
+			"response": []
+		},
+		{
+			"name": "Step4 - Approve Invitation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				},
+				"description": "Approve Invitation"
+			},
+			"response": []
+		}
+	]
+}

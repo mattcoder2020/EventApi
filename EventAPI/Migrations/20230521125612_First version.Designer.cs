@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventAPI.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230519222908_First creae")]
-    partial class Firstcreae
+    [Migration("20230521125612_First version")]
+    partial class Firstversion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,9 +61,9 @@ namespace EventAPI.Migrations
                             Id = 1,
                             ContactPerson = "John Doe1",
                             Description = "Description 1",
-                            EndDateTime = new DateTime(2023, 5, 30, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6593),
+                            EndDateTime = new DateTime(2023, 5, 31, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1441),
                             Location = "location 1",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6608),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1464),
                             TimeZone = "timezone 1",
                             Title = "Title 1"
                         },
@@ -72,9 +72,9 @@ namespace EventAPI.Migrations
                             Id = 2,
                             ContactPerson = "John Doe2",
                             Description = "Description 2",
-                            EndDateTime = new DateTime(2023, 6, 4, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6612),
+                            EndDateTime = new DateTime(2023, 6, 5, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1468),
                             Location = "location 2",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6613),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1470),
                             TimeZone = "timezone 2",
                             Title = "Title 2"
                         },
@@ -83,9 +83,9 @@ namespace EventAPI.Migrations
                             Id = 3,
                             ContactPerson = "John Doe3",
                             Description = "Description 3",
-                            EndDateTime = new DateTime(2023, 6, 9, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6615),
+                            EndDateTime = new DateTime(2023, 6, 10, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1473),
                             Location = "location 3",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6616),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1474),
                             TimeZone = "timezone 1",
                             Title = "Title 3"
                         },
@@ -94,9 +94,9 @@ namespace EventAPI.Migrations
                             Id = 4,
                             ContactPerson = "John Doe3",
                             Description = "Description 3",
-                            EndDateTime = new DateTime(2023, 6, 9, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6618),
+                            EndDateTime = new DateTime(2023, 6, 10, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1476),
                             Location = "location 3",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6619),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1477),
                             TimeZone = "timezone 1",
                             Title = "Title 4"
                         },
@@ -105,9 +105,9 @@ namespace EventAPI.Migrations
                             Id = 5,
                             ContactPerson = "John Doe1",
                             Description = "Description 1",
-                            EndDateTime = new DateTime(2023, 5, 30, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6620),
+                            EndDateTime = new DateTime(2023, 5, 31, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1480),
                             Location = "location 1",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6621),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1481),
                             TimeZone = "timezone 1",
                             Title = "Title 5"
                         },
@@ -116,9 +116,9 @@ namespace EventAPI.Migrations
                             Id = 6,
                             ContactPerson = "John Doe2",
                             Description = "Description 2",
-                            EndDateTime = new DateTime(2023, 6, 4, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6623),
+                            EndDateTime = new DateTime(2023, 6, 5, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1484),
                             Location = "location 2",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6624),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1485),
                             TimeZone = "timezone 2",
                             Title = "Title 6"
                         },
@@ -127,9 +127,9 @@ namespace EventAPI.Migrations
                             Id = 7,
                             ContactPerson = "John Doe3",
                             Description = "Description 3",
-                            EndDateTime = new DateTime(2023, 6, 9, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6626),
+                            EndDateTime = new DateTime(2023, 6, 10, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1488),
                             Location = "location 3",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6626),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1489),
                             TimeZone = "timezone 1",
                             Title = "Title 7"
                         },
@@ -138,11 +138,56 @@ namespace EventAPI.Migrations
                             Id = 8,
                             ContactPerson = "John Doe3",
                             Description = "Description 3",
-                            EndDateTime = new DateTime(2023, 6, 9, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6628),
+                            EndDateTime = new DateTime(2023, 6, 10, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1491),
                             Location = "location 3",
-                            StartDateTime = new DateTime(2023, 5, 20, 6, 29, 7, 440, DateTimeKind.Local).AddTicks(6629),
+                            StartDateTime = new DateTime(2023, 5, 21, 20, 56, 11, 622, DateTimeKind.Local).AddTicks(1493),
                             TimeZone = "timezone 1",
                             Title = "Title 8"
+                        });
+                });
+
+            modelBuilder.Entity("EventAPI.DomainModel.Invitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Invitations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Accepted = false,
+                            EventId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Accepted = false,
+                            EventId = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Accepted = true,
+                            EventId = 1,
+                            UserId = 3
                         });
                 });
 
@@ -185,6 +230,17 @@ namespace EventAPI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("EventAPI.DomainModel.Invitation", b =>
+                {
+                    b.HasOne("EventAPI.DomainModel.Event", "Event")
+                        .WithMany("Invitations")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
             modelBuilder.Entity("EventAPI.DomainModel.Participant", b =>
                 {
                     b.HasOne("EventAPI.DomainModel.Event", "Event")
@@ -198,6 +254,8 @@ namespace EventAPI.Migrations
 
             modelBuilder.Entity("EventAPI.DomainModel.Event", b =>
                 {
+                    b.Navigation("Invitations");
+
                     b.Navigation("Participants");
                 });
 #pragma warning restore 612, 618

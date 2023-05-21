@@ -7,7 +7,7 @@ namespace EventAPI.Service
     {
         Task AddParticipantToEventAsync(AddParticipantParams @params);
         Task AddInvitationToEventAsync(AddInvitationParams @params);
-        Task ApproveInvitationToEventAsync(ApproveInvitationParams @params);
+        Task ApproveInvitationAsync(ApproveInvitationParams @params);
         Task CreateEventAsync(Event newevent);
         Task DeleteEventAsync(int id);
         Task<Event> GetEventByIdAsync(int id);

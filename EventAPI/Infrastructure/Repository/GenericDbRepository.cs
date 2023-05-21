@@ -1,6 +1,7 @@
 ﻿using EventAPI.DomainModel;
 using EventAPI.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace EventAPI.Infrastructure.Repository
 {
@@ -11,6 +12,14 @@ namespace EventAPI.Infrastructure.Repository
         public GenericDbRepository(EventDbContext dbcontext)
         {
             _dbcontext = dbcontext;
+        }
+        public async Task<TEntity> GetByPrimaryKeyAsync(int id, Expression<Func<TEntity, object>>[] includeItem)
+        {
+            var q = _dbcontext.Set<TEntity>().AsQueryable<TEntity>();
+            foreach (Expression<Func<TEntity, object>> e in includeItem)
+                q = q.Include(e);
+
+            return await q.FirstAsync(x => x.Id == id);
         }
         public async Task AddModelAsync(TEntity entity)
         {
@@ -32,9 +41,11 @@ namespace EventAPI.Infrastructure.Repository
 
         public async Task<TEntity> GetByPrimaryKeyAsync(int id)
         {
-            return await _dbcontext.Set<TEntity>().FindAsync(id);
+            return await _dbcontext.Set<TEntity>().FirstAsync(x => x.Id == id);
         }
-     
+
+        
+
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {

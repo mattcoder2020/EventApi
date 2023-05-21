@@ -52,7 +52,7 @@ namespace EventAPI.Tests
         }
 
         [Fact]
-        public async Task AddParticipantToEventAsync_Should_Add_Participant_And_Clear_Cache()
+        public async Task AddParticipantToEventAsync_Should_Add_Participant()
         {
             // Arrange
             var eventId = 1;

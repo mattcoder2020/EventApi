@@ -46,9 +46,10 @@ namespace EventAPI.Controllers
             {
                 await _eventService.UpdateEventAsync(updateevent.Id, updateevent);
             }
-            catch (NotFoundException<Event>)
+            catch (NotFoundException<Event> ex)
             {
-                return NotFound();
+                ModelState.AddModelError("Client Error", ex.Message);
+                return NotFound(ModelState);
             }
             return Ok();
         }
@@ -60,9 +61,10 @@ namespace EventAPI.Controllers
             {
                 await _eventService.DeleteEventAsync(id);
             }
-            catch (NotFoundException<Event>)
+            catch (NotFoundException<Event> ex) 
             {
-                return NotFound();
+                ModelState.AddModelError("Client Error", ex.Message); 
+                return NotFound(ModelState); 
             }
             return Ok();
         }
@@ -76,27 +78,58 @@ namespace EventAPI.Controllers
             {
                 await _eventService.AddParticipantToEventAsync(@params);
             }
-            catch (NotFoundException<Event>)
+            catch (NotFoundException<Event> ex) 
+            {   ModelState.AddModelError("Client Error", ex.Message); 
+                return NotFound(ModelState); 
+            }
+            catch (NotFoundException<User> ex)
             {
-                return NotFound();
+                ModelState.AddModelError("Client Error", ex.Message);
+                return BadRequest(ModelState);
+            }
+            catch (InvalidAddOperationException<Participant> ex)
+            {
+                ModelState.AddModelError("Client Error", ex.Message);
+                return BadRequest(ModelState);
             }
             return Ok();
         }
 
         [HttpPost("addinvitation")]
-        public async Task<IActionResult> AddInvitationToEvent([FromBody] AddParticipantParams @params)
+        public async Task<IActionResult> AddInvitationToEvent([FromBody] AddInvitationParams @params)
         {
             try
             {
-                await _eventService.AddInvitionToEventAsync(@params);
+                await _eventService.AddInvitationToEventAsync(@params);
             }
-            catch (NotFoundException<Event>)
+            catch (NotFoundException<Event> ex)
             {
-                return NotFound();
+                ModelState.AddModelError("Client Error", ex.Message);
+                return NotFound(ModelState);
+            }
+            catch (NotFoundException<User> ex)
+            {
+                ModelState.AddModelError("Client Error", ex.Message);
+                return BadRequest(ModelState);
             }
             return Ok();
         }
 
+        [HttpPost("approveinvitation")]
+        public async Task<IActionResult> ApproveInvitation([FromBody] ApproveInvitationParams @params)
+        {
+            try
+            {
+                await _eventService.ApproveInvitationAsync(@params);
+            }
+            catch (NotFoundException<Event> ex )
+            {
+                ModelState.AddModelError("Client Error", ex.Message);
+                return NotFound(ModelState);
+            }
+          
+            return Ok();
+        }
 
     }
 
@@ -104,6 +137,18 @@ namespace EventAPI.Controllers
     {
         public int eventid { get; set; }
         public int userid { get; set;}
+    }
+
+    public class AddInvitationParams
+    {
+        public int eventid { get; set; }
+        public int userid { get; set; }
+    }
+
+    public class ApproveInvitationParams
+    {
+        public int eventid { get; set; }
+        public int userid { get; set; }
     }
 }
 

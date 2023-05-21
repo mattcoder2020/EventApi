@@ -7,6 +7,7 @@ namespace EventAPI.Infrastructure.DataAccess
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<Participant> Participants { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
 
         public EventDbContext(DbContextOptions options) : base(options)
         {
@@ -18,6 +19,11 @@ namespace EventAPI.Infrastructure.DataAccess
             modelBuilder.Entity<Participant>()
                 .HasOne(p => p.Event)
                 .WithMany(e => e.Participants)
+                .HasForeignKey(p => p.EventId);
+
+            modelBuilder.Entity<Invitation>()
+                .HasOne(p => p.Event)
+                .WithMany(e => e.Invitations)
                 .HasForeignKey(p => p.EventId);
 
 
@@ -36,6 +42,11 @@ namespace EventAPI.Infrastructure.DataAccess
              new Participant { Id = 2, EventId = 1, UserId = 2 },
              new Participant { Id = 3, EventId = 1, UserId = 3 }
              );
+            modelBuilder.Entity<Invitation>().HasData(
+           new Invitation { Id = 1, EventId = 1, UserId = 1, Accepted=false},
+           new Invitation { Id = 2, EventId = 1, UserId = 2, Accepted = false },
+           new Invitation { Id = 3, EventId = 1, UserId = 3, Accepted = true }
+           );
 
         }
     }

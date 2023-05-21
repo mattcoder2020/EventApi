@@ -1,4 +1,5 @@
 ﻿using EventAPI.DomainModel;
+using System.Linq.Expressions;
 
 namespace EventAPI.Infrastructure.Repository
 {
@@ -10,5 +11,6 @@ namespace EventAPI.Infrastructure.Repository
 
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> GetByPrimaryKeyAsync(int id);
+        Task<TEntity> GetByPrimaryKeyAsync(int id, Expression<Func<TEntity, object>>[] includeItem);
     }
 }

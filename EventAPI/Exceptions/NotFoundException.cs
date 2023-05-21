@@ -10,18 +10,4 @@
         {
         }
     }
-
-    public class DuplicateEntityException<T> : ApplicationException
-    {
-        public DuplicateEntityException(string message) : base(typeof(T).FullName + "： " + message)
-        {
-        }
-    }
-
-    public class InvalidAddOperation<T> : ApplicationException
-    {
-        public InvalidAddOperation(string message) : base(typeof(T).FullName + "： " + message)
-        {
-        }
-    }
 }

@@ -10,19 +10,21 @@
             public string TimeZone { get; set; }
             public string Location { get; set; }
             public string ContactPerson { get; set; }
-            public List<Participant> Participants { get; set; } = new List<Participant>();
-            public List<Invitation> Invitations { get; set; } = new List<Invitation>();
+        // Aggregates that are read only and managed by Aggregate Root i.e. Event entity
+            public List<Participant> Participants { get; private set; } = new List<Participant>();
+            public List<Invitation> Invitations { get; private set; } = new List<Invitation>();
 
-            //method to add a participant to the event
-            public bool AddParticipant(Participant user)
-            {
-                if (Invitations.Any(p => p.UserId == user.UserId && p.Accepted == true))
+        //method to add a participant to the event
+        public bool AddParticipant(Participant user)
+        {
+                if (Invitations.Any(p => p.UserId == user.UserId && p.EventId==this.Id && p.Accepted == true))
                 {
-                  return false;
+                  Participants.Add(user);
+                  return true;
                 }
-                Participants.Add(user);
-                return true;
-            }
+            return false;
+
+        }
 
             public bool AddInvitation(Invitation user)
             {
