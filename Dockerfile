@@ -12,6 +12,11 @@ RUN dotnet restore "EventAPI/EventAPI.csproj"
 COPY . .
 WORKDIR "/src/EventAPI"
 RUN dotnet build "EventAPI.csproj" -c Release -o /app/build
+# Install Entity Framework Core CLI tools
+RUN dotnet tool install --global dotnet-ef --version 6.0.0
+ENV PATH="${PATH}:/root/.dotnet/tools"
+# Run the add-migration command
+RUN dotnet ef migrations add InitialCreate -p EventAPI.csproj -o Data/Migrations
 
 FROM build AS publish
 RUN dotnet publish "EventAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false

@@ -82,3 +82,35 @@ Event creator should be able to invite participants. Then, after approval, the i
 ![Invitation Listing](<assets/image_4.png>)
 
 ![Received Invitation](<assets/image_5.png>)
+
+
+# Code Structure and layers
+The code is structured in the following way:
+- Controllers: Contains the event api endpoints for events CRUD and command that add invite, approve invite, and add participant to events
+               It also leverage the builtin dependency injection to inject the services
+- DomainModels: Contains the models used in the application
+          Event.cs: Contains the event model which is the aggregate root that manage the life cycle of invitation and the participants as its aggregate members
+          Invitation.cs: Contains the invitation model which is the aggregate member of the event
+          Participant.cs: Contains the participant model which is the aggregate member of the event
+- Services: interface based service that decouple the API controller from data access layer and domain model to ensure its testability, it also support query that return paginated results 
+- Infrastruture/DataAccess: Contains the db context class that serve as ORM for the domain models with capability to seed the database with sample data for a quick demo purpose
+- Infrastruture/Repository: A generic repository class that encapsulate the db context and provide the basic CRUD operations and eager loading methods for the domain models,
+                            This saves the effort to write seperate repository class for each domain model.
+- Infrastruture/Cache: For simplicity I did not use distributed cache but rather leverage the builtin memory cache, the main focus is to cache the events data which are frequently visit, 
+                       the cache is invalidate when there is a change (CUD) in the events data 
+- Infrastruture/Middleware: Custom middleware that serve as global exception handler to ensure the service doesnt break for any unexpected error and return the appropriate response to end user
+- Infrastruture/Logging: To Be Implemented
+- Exceptions: Contains the custom exceptions used in the services for fine grained exception handling
+
+
+# Deployment
+Create docker image: 
+     docker build . -t eventapi/eventapiservice -f dockerfile
+Run docker image:  
+     docker run -p 8080:80 eventapi/eventapiservice
+Access the API: 
+	 http://localhost:8080/api/events
+
+# Diagram
+
+# Quick API Demo

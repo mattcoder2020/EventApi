@@ -44,9 +44,6 @@ namespace EventAPI.Infrastructure.Repository
             return await _dbcontext.Set<TEntity>().FirstAsync(x => x.Id == id);
         }
 
-        
-
-
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _dbcontext.Set<TEntity>().AsQueryable().ToArrayAsync<TEntity>();
