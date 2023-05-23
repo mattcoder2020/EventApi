@@ -92,6 +92,7 @@ namespace EventAPI.Service
         {
             var includeItems = new Expression<Func<Event, object>>[2] { e => e.Invitations, e => e.Participants };
             var existingEvent = await _eventRepository.GetByPrimaryKeyAsync(@params.eventid, includeItems);
+           
             if (existingEvent == null)
                 throw new NotFoundException<Event>("Event with id " + @params.eventid + " is not found");
 

@@ -84,7 +84,7 @@ Event creator should be able to invite participants. Then, after approval, the i
 ![Received Invitation](<assets/image_5.png>)
 
 
-# Code Structure and layers
+# Application Code Structure and layers
 The code is structured in the following way:
 - Controllers: Contains the event api endpoints for events CRUD and command that add invite, approve invite, and add participant to events
                It also leverage the builtin dependency injection to inject the services
@@ -102,15 +102,45 @@ The code is structured in the following way:
 - Infrastruture/Logging: To Be Implemented
 - Exceptions: Contains the custom exceptions used in the services for fine grained exception handling
 
+# Application Design
+The application is designed using the following patterns:
+- Repository: The application is designed using repository pattern to decouple the data access layer from the domain model and the API controller, this is to ensure the testability of the service layer
+- Mediator: The application is designed using mediator pattern to decouple the API controller from the service layer, this is to ensure the testability of the service layer
+- Dependency Injection: The application is designed using dependency injection pattern to decouple the API controller from the service layer, this is to ensure the testability of the service layer
+- Cache Aside: The application is designed using cache aside pattern to cache the frequently visit events data, this is to improve the performance of the application
+- Domain Driven Design: The application is designed using domain driven design to ensure the data integrity of the application
 
-# Deployment
-Create docker image: 
+# Application Testability
+The application is designed to be testable in the following ways:
+- Unit Test: The application is designed using repository pattern to decouple the data access layer from the domain model and the API controller, this is to ensure the testability of the service layer
+- Integration Test: The application is designed using repository pattern to decouple the data access layer from the domain model and the API controller, this is to ensure the testability of the service layer
+- Mocking: The application is designed using repository pattern to decouple the data access layer from the domain model and the API controller, this is to ensure the testability of the service layer
+- Dependency Injection: The application is designed using dependency injection pattern to decouple the API controller from the service layer, this is to ensure the testability of the service layer
+
+# Test Project
+The test project is structured in the following way:
+- Unit Test: Contains the unit test for the API controller and service layer implementations
+- Integration Test: Not Implemented but will needed to test the application end to end on DB and Caching for any given user case senario.
+
+# Diagram
+![Diagram](<assets/diagram.png>)
+# Setup
+- Clone the repository
+- Open the solution in Visual Studio
+- Build the solution
+- Run the application
+- Access the API: 
+	 http://localhost:5000/api/events
+- Access the Swagger UI:
+http://localhost:5000/swagger/index.html
+
+# Setup and Deployment
+- Clone the repository
+- Create docker image: 
      docker build . -t eventapi/eventapiservice -f dockerfile
 Run docker image:  
      docker run -p 8080:80 eventapi/eventapiservice
 Access the API: 
 	 http://localhost:8080/api/events
-
-# Diagram
 
 # Quick API Demo

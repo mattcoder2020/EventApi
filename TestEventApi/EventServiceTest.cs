@@ -1,9 +1,11 @@
 using EventAPI.Controllers;
 using EventAPI.DomainModel;
+using EventAPI.Exceptions;
 using EventAPI.Infrastructure.Repository;
 using EventAPI.Service;
 using Microsoft.Extensions.Caching.Memory;
 using Moq;
+using System.Linq.Expressions;
 
 namespace EventAPI.Tests
 {
@@ -27,8 +29,8 @@ namespace EventAPI.Tests
             var eventId = 1;
             var existingEvent = new Event { Id = eventId, Title = "Event 1" };
 
-            _eventRepositoryMock.Setup(r => r.GetByPrimaryKeyAsync(eventId)).Returns(Task.FromResult(existingEvent));
-
+            _eventRepositoryMock.Setup(r => r.GetByPrimaryKeyAsync(eventId, It.IsAny<Expression<Func<Event, object>>[]>()))
+   .ReturnsAsync(existingEvent);
             // Act
             var result = await _eventService.GetEventByIdAsync(eventId);
 
@@ -52,18 +54,20 @@ namespace EventAPI.Tests
         }
 
         [Fact]
-        public async Task AddParticipantToEventAsync_Should_Add_Participant()
+        public async Task AddParticipantToEventAsync_GivenInviteIsAccepted_Should_Add_Participant()
         {
             // Arrange
             var eventId = 1;
             var userId = 1;
             var existingEvent = new Event { Id = eventId, Title = "Event 1" };
-            var addParticipantParams = new AddParticipantParams { eventid = eventId, userid = userId };
-
-            _eventRepositoryMock.Setup(r => r.GetByPrimaryKeyAsync(eventId)).Returns(Task.FromResult(existingEvent));
+         
+            existingEvent.AddInvitation(new Invitation { EventId = eventId, UserId = userId, Accepted = true });
+            var @params = new AddParticipantParams { eventid = eventId, userid = userId };
+            _eventRepositoryMock.Setup(r => r.GetByPrimaryKeyAsync(@params.eventid, It.IsAny<Expression<Func<Event, object>>[]>()))
+    .ReturnsAsync(existingEvent);
 
             // Act
-            await _eventService.AddParticipantToEventAsync(addParticipantParams);
+            await _eventService.AddParticipantToEventAsync(@params);
 
             // Assert
             _eventRepositoryMock.Verify(r => r.UpdateModelAsync(existingEvent), Times.Once);
@@ -71,6 +75,27 @@ namespace EventAPI.Tests
             Assert.Single(existingEvent.Participants);
             Assert.Equal(userId, existingEvent.Participants.First().UserId);
             Assert.Equal(existingEvent, existingEvent.Participants.First().Event);
+        }
+
+        [Fact]
+        public async Task AddParticipantToEventAsync_GivenInviteIsNotAccepted_Should_Not_Add_Participant()
+        {
+            // Arrange
+            var eventId = 1;
+            var userId = 1;
+            var existingEvent = new Event { Id = eventId, Title = "Event 1" };
+
+            existingEvent.AddInvitation(new Invitation { EventId = eventId, UserId = userId, Accepted = false });
+            var @params = new AddParticipantParams { eventid = eventId, userid = userId };
+            _eventRepositoryMock.Setup(r => r.GetByPrimaryKeyAsync(@params.eventid, It.IsAny<Expression<Func<Event, object>>[]>()))
+    .ReturnsAsync(existingEvent);
+
+            // Act
+            await Assert.ThrowsAsync<InvalidAddOperationException<Participant>>(() => _eventService.AddParticipantToEventAsync(@params));
+       
+            // Assert
+            _eventRepositoryMock.Verify(r => r.UpdateModelAsync(existingEvent), Times.Never);
+            Assert.Empty(existingEvent.Participants);
         }
     }
 
