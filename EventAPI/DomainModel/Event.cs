@@ -15,17 +15,26 @@
             public List<Invitation> Invitations { get; private set; } = new List<Invitation>();
 
         //method to add a participant to the event
-        public bool AddParticipant(Participant user)
-        {
-                if (Invitations.Any(p => p.UserId == user.UserId && p.EventId==this.Id && p.Accepted == true))
+            public bool AddParticipant(Participant user)
+            {
+                if (InvitationAccepted(user))
                 {
                   Participants.Add(user);
                   return true;
                 }
-            return false;
+                return false;
 
-        }
+            }
 
+             private bool InvitationAccepted(Participant user)
+             {
+                if (Invitations.Any(p => p.UserId == user.UserId && p.EventId == this.Id && p.Accepted == true))
+                {
+                    return true;
+                }
+                return false;
+              }
+            
             public bool AddInvitation(Invitation user)
             {
                if (Invitations.Any(p => p.UserId == user.UserId))
