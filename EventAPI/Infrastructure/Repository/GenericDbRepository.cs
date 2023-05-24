@@ -18,8 +18,9 @@ namespace EventAPI.Infrastructure.Repository
             var q = _dbcontext.Set<TEntity>().AsQueryable<TEntity>();
             foreach (Expression<Func<TEntity, object>> e in includeItem)
                 q = q.Include(e);
+            //returns null if not found
 
-            return await q.FirstAsync(x => x.Id == id);
+            return await q.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task AddModelAsync(TEntity entity)
         {
@@ -41,7 +42,7 @@ namespace EventAPI.Infrastructure.Repository
 
         public async Task<TEntity> GetByPrimaryKeyAsync(int id)
         {
-            return await _dbcontext.Set<TEntity>().FirstAsync(x => x.Id == id);
+            return await _dbcontext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()

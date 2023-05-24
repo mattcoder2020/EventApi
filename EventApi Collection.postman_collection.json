@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "05cb2372-41f5-4d38-a018-5f3931bbc186",
+		"_postman_id": "8cfc8c56-c0b8-46d1-aea2-6a2a2a8a1e3e",
 		"name": "EventApi Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -15,7 +15,26 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:8080/api/events?page=1&pageSize=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "3"
+						}
+					]
 				},
 				"description": "Get all events in json format"
 			},
@@ -24,14 +43,30 @@
 		{
 			"name": "Step2 - Add a new event",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\r\n  \"id\": 9,\r\n  \"title\": \"Event9\",\r\n  \"description\": \"Description of Event9\",\r\n  \"startDateTime\": \"2023-05-24T02:50:01.174Z\",\r\n  \"endDateTime\": \"2023-05-24T02:50:01.174Z\",\r\n  \"timeZone\": \"PST\",\r\n  \"location\": \"Location9\",\r\n  \"contactPerson\": \"John Doe\"\r\n}"
 				},
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:8080/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events"
+					]
 				},
 				"description": "Add a new event without participant or invitation"
 			},
@@ -40,14 +75,31 @@
 		{
 			"name": "Step3 - Add Invitation to event",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\r\n  \"eventid\": 1,\r\n  \"userid\": 2\r\n}"
 				},
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:8080/api/events/addinvitation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events",
+						"addinvitation"
+					]
 				},
 				"description": "Add Invitation to event"
 			},
@@ -56,6 +108,102 @@
 		{
 			"name": "Step4 - Approve Invitation",
 			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"eventid\": 1,\r\n  \"userid\": 2\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/events/approveinvitation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events",
+						"approveinvitation"
+					]
+				},
+				"description": "Approve Invitation"
+			},
+			"response": []
+		},
+		{
+			"name": "Step5 - Add Participant to Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"eventid\": 1,\r\n  \"userid\": 2\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/events/addparticipant",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events",
+						"addparticipant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step6 - Update Event",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 2,\r\n  \"title\": \"title changed1\",\r\n  \"description\": \"description changed1\",\r\n  \"startDateTime\": \"2023-05-24T03:13:48.291Z\",\r\n  \"endDateTime\": \"2023-05-24T03:13:48.291Z\",\r\n  \"timeZone\": \"timezone changed1\",\r\n  \"location\": \"location changed1\",\r\n  \"contactPerson\": \"contacperson changed1\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step7 - Get Event base on id",
+			"request": {
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -63,9 +211,43 @@
 					"raw": ""
 				},
 				"url": {
+					"raw": "http://localhost:8080/api/events/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step8 - Delete event base on id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
 					"raw": ""
 				},
-				"description": "Approve Invitation"
+				"url": {
+					"raw": "http://localhost:8080/api/events/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"events",
+						"1"
+					]
+				}
 			},
 			"response": []
 		}

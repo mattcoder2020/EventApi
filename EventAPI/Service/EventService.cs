@@ -81,7 +81,8 @@ namespace EventAPI.Service
 
         public async Task DeleteEventAsync(int id)
         {
-            var existingEvent = await _eventRepository.GetByPrimaryKeyAsync(id);
+            var includeItems = new Expression<Func<Event, object>>[2] { e => e.Invitations, e => e.Participants };
+            var existingEvent = await _eventRepository.GetByPrimaryKeyAsync(id, includeItems);
             if (existingEvent == null)
                 throw new NotFoundException<Event>("Event with id " + id + " is not found");
             await _eventRepository.DeleteModelAsync(existingEvent);
