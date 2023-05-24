@@ -64,5 +64,18 @@ The application is designed to be testable in the following ways:
 	 http://localhost:8080/api/events
 
 # Quick API Demo
-- Open Postman and import the following collection:
+- Open Postman and import the collection under \EventApi
+  "EventApi Collection.postman_collection"
 - Open path - File->Setting->Genernal and disable SSL certificate verification
+- You are ready to test the 8 APIs with the following steps:
+  1. Create Event
+  2. Get All Events
+  3. Update Event
+  4. Delete Event
+  5. Add Invite	
+  6. Approve Invite
+  7. Add Participant
+  8. Get Event By Id
+	 
+ 
+
