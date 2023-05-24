@@ -51,7 +51,7 @@ The application is designed to be testable in the following ways:
 # Diagram
 [Class Diagram](https://github.com/mattcoder2020/EventApi/blob/master/Assets/Class%20Diagram.jpg)
 [Sequence Diagram](https://github.com/mattcoder2020/EventApi/blob/master/Assets/Sequence%20Diagram.jpg)
-[ER Diagram](https://github.com/mattcoder2020/EventApi/blob/master/Assets/Entity%20Relation%20Diagram.jpg)
+[ER Diagram](https://github.com/mattcoder2020/EventApi/blob/master/Assets/Entity%20Relationship%20Diagram.jpg)
 
 # Setup and Deployment
 - CD to root directory, run following command to clone the repository to local machine: 
