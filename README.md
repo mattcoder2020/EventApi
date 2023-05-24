@@ -60,8 +60,8 @@ The application is designed to be testable in the following ways:
      docker build . -t eventapi/eventapiservice -f dockerfile
 - Run following command to create docker container from docker image:  
      docker run -p 8080:80 eventapi/eventapiservice
-- Sanity test the API: 
-	 http://localhost:8080/api/events
+- Swagger 
+     http://localhost:8080/swagger/index.html
 
 # Quick API Demo
 - Open Postman and import the collection under \EventApi
