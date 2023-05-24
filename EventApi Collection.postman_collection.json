@@ -250,6 +250,21 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Step9 - Negative case - delete event that is not existed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
 		}
 	]
 }
